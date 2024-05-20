@@ -7,16 +7,18 @@ let playingField = ref([{text:""},{text:""},{text:""},{text:""},{text:""},{text:
 const currentPlayerIndex = ref(0)
 
 interface PlayersProps{
-  playersInGame: Player[]
+    playersInGame: Player[]
 }
 const props = defineProps<PlayersProps>();
+
+const showCurrentPlayer = ref(props.playersInGame[0].playerX)
 
 function makeMove(i:number){
     if (playingField.value[i].text === ""){
         const currentPlayer = props.playersInGame[currentPlayerIndex.value];
         playingField.value[i].text = currentPlayer.playerX ? "X" : "O";
-       /*  playingField.value[i].text = "X" */
-       currentPlayerIndex.value = currentPlayerIndex.value === 0 ? 1 : 0;
+        currentPlayerIndex.value = currentPlayerIndex.value === 0 ? 1 : 0;
+        showCurrentPlayer.value = !showCurrentPlayer.value
     }
 }
 
@@ -25,7 +27,8 @@ function makeMove(i:number){
 <template>
     <h4>Let the game begin</h4>
     <p>spelare X: {{ playersInGame[0].playerName }} & spelare O: {{ playersInGame[1].playerName }}</p>
-    <p>Din tur: ...</p>
+    <p v-if="showCurrentPlayer">Din tur: {{ playersInGame[0].playerName }}</p>
+    <p v-if="!showCurrentPlayer">Din tur: {{ playersInGame[1].playerName }}</p>
     <section id="playingField">
     <div @click="makeMove(i)" class="square" v-for="(board, i) in playingField" key="i">{{ board.text }}</div>
 </section>
