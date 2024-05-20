@@ -7,8 +7,13 @@ const state = ref({
   showPlayingField: false,
 });
 
-function handleChangeView() {
-  state.value.showPlayingField = !state.value.showPlayingField;
+function handleChangeView(arrLength:number) {
+  if (arrLength > 1) {
+    state.value.showPlayingField = !state.value.showPlayingField;
+  }
+  else{
+    alert("måste finnas två spelare")
+  }
 };
 
 </script>

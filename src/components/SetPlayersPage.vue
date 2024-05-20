@@ -2,14 +2,14 @@
 import AddPlayersForm from "./AddPlayersForm.vue"
 
 defineEmits<{
-  (e: "handelChangeView"): void;
+  (e: "handelChangeView", arrLength:number): void;
 }>();
 
 </script>
 
 <template>
     <AddPlayersForm 
-    @change-view="$emit('handelChangeView')"
+    @change-view="(arrLength) => {$emit('handelChangeView', arrLength)}"
     />
 </template>
 

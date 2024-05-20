@@ -7,18 +7,11 @@ const userInput = ref("")
 
 const players = ref<Player[]>([])
 
-/* interface PlayersProp{
-  players: Player[]
-}
-defineProps<PlayersProp>();
- */
-
 function setPlayer(){
   if (players.value.length  < 2) {
     players.value.push(new Player(userInput.value))
     userInput.value = "" 
     players.value[1].playerX = !players.value[1].playerX;
-    
     
     console.log(players.value);
     
@@ -28,7 +21,7 @@ function setPlayer(){
 }
 
 defineEmits<{
-  (e: "changeView"): void;
+  (e: "changeView", arrLength:number): void;
 }>();
 
 </script>
@@ -48,7 +41,7 @@ defineEmits<{
     {{ player.playerName }}</li>
   </ul>
 
-<button @click="$emit('changeView')">spela</button>
+<button @click="$emit('changeView', players.length)">spela</button>
 
 </template>
 
