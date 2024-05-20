@@ -22,7 +22,7 @@ function handleChangeView(arrLength:number) {
 </script>
 
 <template>
-    <PlayingFieldPage  v-if="state.showPlayingField" />
+    <PlayingFieldPage :players-in-game="players" v-if="state.showPlayingField" />
     <SetPlayersPage :players="players" v-else @handel-change-view="handleChangeView"/>
 </template>
 

@@ -1,13 +1,22 @@
 <script setup lang='ts'>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { Player } from '../models/Player';
 
 let playingField = ref([{text:""},{text:""},{text:""},{text:""},{text:""},{text:""},{text:""},{text:""},{text:""}])
 
-const square = ""
+const currentPlayerIndex = ref(0)
+
+interface PlayersProps{
+  playersInGame: Player[]
+}
+const props = defineProps<PlayersProps>();
 
 function makeMove(i:number){
-    if (true){
-        playingField.value[i].text = "X"
+    if (playingField.value[i].text === ""){
+        const currentPlayer = props.playersInGame[currentPlayerIndex.value];
+        playingField.value[i].text = currentPlayer.playerX ? "X" : "O";
+       /*  playingField.value[i].text = "X" */
+       currentPlayerIndex.value = currentPlayerIndex.value === 0 ? 1 : 0;
     }
 }
 
@@ -15,6 +24,7 @@ function makeMove(i:number){
 
 <template>
     <h4>Let the game begin</h4>
+    <p>spelare X: {{ playersInGame[0].playerName }} & spelare O: {{ playersInGame[1].playerName }}</p>
     <p>Din tur: ...</p>
     <section id="playingField">
     <div @click="makeMove(i)" class="square" v-for="(board, i) in playingField" key="i">{{ board.text }}</div>
