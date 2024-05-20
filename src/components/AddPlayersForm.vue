@@ -5,15 +5,21 @@ import { Player } from '../models/Player';
 
 const userInput = ref("")
 
-const players = ref<Player[]>([])
+/* const players = ref<Player[]>([]) */
+
+interface PlayersProps{
+  players: Player[]
+}
+
+const props = defineProps<PlayersProps>();
 
 function setPlayer(){
-  if (players.value.length  < 2) {
-    players.value.push(new Player(userInput.value))
+  if (props.players.length  < 2) {
+    props.players.push(new Player(userInput.value))
     userInput.value = "" 
-    players.value[1].playerX = !players.value[1].playerX;
+    props.players[1].playerX = !props.players[1].playerX;
     
-    console.log(players.value);
+    console.log(props.players);
     
   } else{
     alert("Kan inte vara fler än 2 spelare")
