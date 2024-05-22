@@ -1,7 +1,9 @@
 export class Player {
-  playerX: boolean;
+  /* playerX: boolean; */
+  playerSymbol: string;
 
-  constructor(public playerName: string) {
-    this.playerX = true;
+  constructor(public playerName: string, playerSymbol: string) {
+    /* this.playerX = true; */
+    this.playerSymbol = playerSymbol;
   }
 }

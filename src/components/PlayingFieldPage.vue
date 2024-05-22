@@ -1,25 +1,73 @@
 <script setup lang='ts'>
-import { onMounted, ref } from 'vue';
+import {  computed, ref } from 'vue';
 import { Player } from '../models/Player';
 
-let playingField = ref([{text:""},{text:""},{text:""},{text:""},{text:""},{text:""},{text:""},{text:""},{text:""}])
 
-const currentPlayerIndex = ref(0)
-
-interface PlayersProps{
-    playersInGame: Player[]
+const playingField = ref([
+    {text:""},{text:""},{text:""},
+    {text:""},{text:""},{text:""},
+    {text:""},{text:""},{text:""}
+])
+      
+interface Square {
+  text: string;
 }
-const props = defineProps<PlayersProps>();
 
-const showCurrentPlayer = ref(props.playersInGame[0].playerX)
-
-function makeMove(i:number){
-    if (playingField.value[i].text === ""){
-        const currentPlayer = props.playersInGame[currentPlayerIndex.value];
-        playingField.value[i].text = currentPlayer.playerX ? "X" : "O";
-        currentPlayerIndex.value = currentPlayerIndex.value === 0 ? 1 : 0;
-        showCurrentPlayer.value = !showCurrentPlayer.value
+function calculateWinner(squares: Square[]): string | null{
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < winningCombinations.length; i++) {
+    const [a, b, c] = winningCombinations[i];
+    if (squares[a].text && squares[a].text === squares[b].text && squares[a].text === squares[c].text) {
+      return squares[a].text;
     }
+  }
+  return null;
+}
+
+
+const theWinner = computed(() => calculateWinner(playingField.value))
+
+function isTie(): boolean {
+    return !theWinner.value && playingField.value.every(square => square.text !== "");
+}
+ 
+      interface PlayersProps{
+          playersInGame: Player[]
+        }
+        const props = defineProps<PlayersProps>();
+        
+        const currentPlayer = ref<Player>(props.playersInGame[0])
+
+function makeMove(i: number) {
+    if (playingField.value[i].text !== "") {
+        return;
+    }
+    
+    playingField.value[i].text = currentPlayer?.value?.playerSymbol!;
+
+    if (currentPlayer.value === props.playersInGame[0]) {
+        currentPlayer.value = props.playersInGame[1]
+    }   else{
+        currentPlayer.value = props.playersInGame[0]
+    }
+}
+  
+function resetGame() {
+  playingField.value = [
+    { text: "" }, { text: "" }, { text: "" },
+    { text: "" }, { text: "" }, { text: "" },
+    { text: "" }, { text: "" }, { text: "" }
+  ];
+  currentPlayer.value = props.playersInGame[0];
 }
 
 </script>
@@ -27,11 +75,13 @@ function makeMove(i:number){
 <template>
     <h4>Let the game begin</h4>
     <p>spelare X: {{ playersInGame[0].playerName }} & spelare O: {{ playersInGame[1].playerName }}</p>
-    <p v-if="showCurrentPlayer">Din tur: {{ playersInGame[0].playerName }}</p>
-    <p v-if="!showCurrentPlayer">Din tur: {{ playersInGame[1].playerName }}</p>
+    <p>Din Tur: {{ currentPlayer?.playerName }}</p>
+    <h2 v-if="theWinner"> {{ theWinner}}: vann</h2>
+    <h2 v-if="isTie()">Oavgjort</h2>
     <section id="playingField">
-    <div @click="makeMove(i)" class="square" v-for="(board, i) in playingField" key="i">{{ board.text }}</div>
-</section>
+    <div @click="makeMove(i)" class="square" v-for="(square, i) in playingField" key="i">{{ square.text }}</div>
+    <button @click="resetGame">Nytt spel</button>
+    </section>
 </template>
 
 <style scoped>

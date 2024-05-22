@@ -15,9 +15,10 @@ const props = defineProps<PlayersProps>();
 
 function setPlayer(){
   if (props.players.length  < 2) {
-    props.players.push(new Player(userInput.value))
+    const playerSymbol = props.players.length === 0 ? "X":"O";
+
+    props.players.push(new Player(userInput.value, playerSymbol))
     userInput.value = "" 
-    props.players[1].playerX = !props.players[1].playerX;
     
     console.log(props.players);
     
@@ -42,8 +43,7 @@ defineEmits<{
   </form>
   <ul>
     <li v-for="(player, i) in players" :key="i">
-      <p v-if="player.playerX">Spelare X:</p>
-      <p v-else>Spelare O:</p>
+      <p>Spelare {{ players[i].playerSymbol }}:</p>
     {{ player.playerName }}</li>
   </ul>
 
