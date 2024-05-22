@@ -22,6 +22,22 @@ const playingField = ref([
 const gameOver = ref(false);
 const theWinner = computed(() => calculateWinner(playingField.value));
 
+function makeMove(i: number) {
+  if (gameOver.value === true) return;
+
+  if (playingField.value[i].text !== "") {
+    return;
+  }
+
+  playingField.value[i].text = currentPlayer?.value?.playerSymbol!;
+
+  if (currentPlayer.value === props.playersInGame[0]) {
+    currentPlayer.value = props.playersInGame[1];
+  } else {
+    currentPlayer.value = props.playersInGame[0];
+  }
+}
+
 interface Square {
   text: string;
 }
@@ -56,22 +72,6 @@ function isTie(): boolean {
   );
 }
 
-function makeMove(i: number) {
-  if (gameOver.value === true) return;
-
-  if (playingField.value[i].text !== "") {
-    return;
-  }
-
-  playingField.value[i].text = currentPlayer?.value?.playerSymbol!;
-
-  if (currentPlayer.value === props.playersInGame[0]) {
-    currentPlayer.value = props.playersInGame[1];
-  } else {
-    currentPlayer.value = props.playersInGame[0];
-  }
-}
-
 function resetGame() {
   playingField.value = [
     { text: "" },
@@ -91,25 +91,29 @@ function resetGame() {
 
 <template>
   <h4>Let the game begin</h4>
+
   <div class="displayPlayers">
     <p>Spelare X: {{ playersInGame[0].playerName }}</p>
     <p>Spelare O: {{ playersInGame[1].playerName }}</p>
   </div>
+
   <p v-if="gameOver === false">
     Din tur <span>{{ currentPlayer?.playerName }}</span>
   </p>
   <h2 v-if="theWinner">{{ theWinner }}: vann</h2>
   <h2 v-if="isTie()">Oavgjort</h2>
+
   <section id="playingField">
     <div
       @click="makeMove(i)"
       class="square"
       v-for="(square, i) in playingField"
-      key="i"
+      :key="i"
     >
       {{ square.text }}
     </div>
   </section>
+
   <button @click="resetGame">Nytt spel</button>
 </template>
 
