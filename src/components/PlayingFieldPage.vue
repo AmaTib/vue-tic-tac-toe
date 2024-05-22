@@ -2,8 +2,12 @@
 import { computed, ref } from "vue";
 import { Player } from "../models/Player";
 
-const gameOver = ref(false);
+interface PlayersProps {
+  playersInGame: Player[];
+}
+const props = defineProps<PlayersProps>();
 
+const currentPlayer = ref<Player>(props.playersInGame[0]);
 const playingField = ref([
   { text: "" },
   { text: "" },
@@ -15,11 +19,12 @@ const playingField = ref([
   { text: "" },
   { text: "" },
 ]);
+const gameOver = ref(false);
+const theWinner = computed(() => calculateWinner(playingField.value));
 
 interface Square {
   text: string;
 }
-
 function calculateWinner(squares: Square[]): string | null {
   const winningCombinations = [
     [0, 1, 2],
@@ -45,20 +50,11 @@ function calculateWinner(squares: Square[]): string | null {
   return null;
 }
 
-const theWinner = computed(() => calculateWinner(playingField.value));
-
 function isTie(): boolean {
   return (
     !theWinner.value && playingField.value.every((square) => square.text !== "")
   );
 }
-
-interface PlayersProps {
-  playersInGame: Player[];
-}
-const props = defineProps<PlayersProps>();
-
-const currentPlayer = ref<Player>(props.playersInGame[0]);
 
 function makeMove(i: number) {
   if (gameOver.value === true) return;
@@ -99,7 +95,7 @@ function resetGame() {
     <p>Spelare X: {{ playersInGame[0].playerName }}</p>
     <p>Spelare O: {{ playersInGame[1].playerName }}</p>
   </div>
-  <p>Din Tur: {{ currentPlayer?.playerName }}</p>
+  <p v-if="gameOver === false">Din Tur: {{ currentPlayer?.playerName }}</p>
   <h2 v-if="theWinner">{{ theWinner }}: vann</h2>
   <h2 v-if="isTie()">Oavgjort</h2>
   <section id="playingField">

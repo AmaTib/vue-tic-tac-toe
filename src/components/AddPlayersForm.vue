@@ -11,6 +11,10 @@ interface PlayersProps {
 const props = defineProps<PlayersProps>();
 
 function setPlayer() {
+  if (userInput.value === "") {
+    alert("skriv ett namn på spelaren");
+    return;
+  }
   if (props.players.length < 2) {
     const playerSymbol = props.players.length === 0 ? "X" : "O";
 
