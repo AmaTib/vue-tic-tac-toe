@@ -97,7 +97,7 @@ function resetGame() {
     <p>Spelare O: {{ playersInGame[1].playerName }}</p>
   </div>
 
-  <p v-if="gameOver === false">
+  <p v-if="gameOver === false && !isTie()">
     Din tur <span>{{ currentPlayer?.playerName }}</span>
   </p>
   <h2 v-if="theWinner">{{ theWinner }}: vann</h2>
