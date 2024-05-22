@@ -95,7 +95,9 @@ function resetGame() {
     <p>Spelare X: {{ playersInGame[0].playerName }}</p>
     <p>Spelare O: {{ playersInGame[1].playerName }}</p>
   </div>
-  <p v-if="gameOver === false">Din Tur: {{ currentPlayer?.playerName }}</p>
+  <p v-if="gameOver === false">
+    Din tur <span>{{ currentPlayer?.playerName }}</span>
+  </p>
   <h2 v-if="theWinner">{{ theWinner }}: vann</h2>
   <h2 v-if="isTie()">Oavgjort</h2>
   <section id="playingField">
@@ -117,6 +119,11 @@ function resetGame() {
   justify-content: center;
   gap: 1em;
   margin-bottom: 1em;
+}
+
+span {
+  background-color: rgb(252, 247, 218);
+  padding: 0 10px;
 }
 
 #playingField {
