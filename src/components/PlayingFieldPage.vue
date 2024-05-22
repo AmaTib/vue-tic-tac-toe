@@ -95,10 +95,10 @@ function resetGame() {
 
 <template>
   <h4>Let the game begin</h4>
-  <p>
-    spelare X: {{ playersInGame[0].playerName }} & spelare O:
-    {{ playersInGame[1].playerName }}
-  </p>
+  <div class="displayPlayers">
+    <p>Spelare X: {{ playersInGame[0].playerName }}</p>
+    <p>Spelare O: {{ playersInGame[1].playerName }}</p>
+  </div>
   <p>Din Tur: {{ currentPlayer?.playerName }}</p>
   <h2 v-if="theWinner">{{ theWinner }}: vann</h2>
   <h2 v-if="isTie()">Oavgjort</h2>
@@ -111,22 +111,44 @@ function resetGame() {
     >
       {{ square.text }}
     </div>
-    <button @click="resetGame">Nytt spel</button>
   </section>
+  <button @click="resetGame">Nytt spel</button>
 </template>
 
 <style scoped>
+.displayPlayers {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
 #playingField {
   display: grid;
+  margin: 0 auto;
+  width: fit-content;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 0.5em;
+  margin-bottom: 2em;
+  margin-top: 1em;
 }
 .square {
-  background-color: aliceblue;
-  border: solid darkblue 2px;
-  padding: 1em;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
   height: 2em;
   width: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Pally", sans-serif;
+  font-size: 2em;
+  color: #0f1656;
 }
 </style>
