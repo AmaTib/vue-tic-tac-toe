@@ -14,7 +14,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
+  background-image: linear-gradient(to top, #9b709f 0%, #fef9d7 100%);
 }
 
 button {
@@ -24,12 +24,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #fcdddd;
+  background-color: #e7e1db;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #8f4d8b;
+  border-color: #2a38ae;
 }
 
 #app {
