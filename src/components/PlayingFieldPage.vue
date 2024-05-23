@@ -73,18 +73,13 @@ function isTie(): boolean {
 }
 
 function resetGame() {
-  playingField.value = [
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-  ];
-  currentPlayer.value = props.playersInGame[0];
+  playingField.value.forEach((square) => {
+    square.text = "";
+  });
+  currentPlayer.value =
+    props.playersInGame[Math.floor(Math.random() * props.playersInGame.length)];
+  console.log(currentPlayer.value);
+
   gameOver.value = false;
 }
 </script>
