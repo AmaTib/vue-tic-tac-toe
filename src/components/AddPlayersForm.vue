@@ -20,8 +20,6 @@ function setPlayer() {
 
     props.players.push(new Player(userInput.value, playerSymbol));
     userInput.value = "";
-
-    console.log(props.players);
   } else {
     alert("Kan inte vara fler än 2 spelare");
   }

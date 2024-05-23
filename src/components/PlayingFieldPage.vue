@@ -78,7 +78,6 @@ function resetGame() {
   });
   currentPlayer.value =
     props.playersInGame[Math.floor(Math.random() * props.playersInGame.length)];
-  console.log(currentPlayer.value);
 
   gameOver.value = false;
 }
